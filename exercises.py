@@ -175,7 +175,7 @@ def transcribe_dna_to_rna(s):
     Return string s with each letter T replaced by U.
     Result is always uppercase.
     """
-    return None
+    return "".join('U' if c.upper() == 'T' else c.upper() for c in s)
 
 
 def test_transcribe_dna_to_rna():
@@ -190,7 +190,8 @@ def get_complement(s):
     Return the DNA complement in uppercase
     (A -> T, T-> A, C -> G, G-> C).
     """
-    return None
+    pairs = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+    return "".join(pairs[k.upper()] for k in s)
 
 
 def test_get_complement():
@@ -205,7 +206,7 @@ def get_reverse_complement(s):
     Return the reverse complement of string s
     (complement reversed in order).
     """
-    return None
+    return get_complement(s)[::-1]
 
 
 def test_get_reverse_complement():
@@ -219,7 +220,7 @@ def remove_substring(substring, string):
     """
     Returns string with all occurrences of substring removed.
     """
-    return None
+    return string.replace(substring,'')
 
 
 def test_remove_substring():
@@ -237,7 +238,12 @@ def get_position_indices(triplet, dna):
     in a DNA sequence. We start counting from 0
     and jump by 3 characters from one position to the next.
     """
-    return None
+    li = []
+    for i in range(len(dna)):
+        if dna[i:i+3] == triplet:
+            li.append(i//3)
+        
+    return li
 
 
 def test_get_position_indices():
@@ -256,8 +262,19 @@ def get_3mer_usage_chart(s):
     The list is alphabetically sorted by the name
     of the 3-mer.
     """
-    return None
+    chart = {}
+    for i in range(len(s)-2):
+        triplet = s[i:i+3]
+        if triplet in chart.keys():
+            chart[triplet] += 1
+        else:
+            chart[triplet] = 1
 
+
+    sorted_keys = chart.keys()
+    sorted_keys.sort()
+    return [(k, chart[k]) for k in sorted_keys]
+        
 
 def test_get_3mer_usage_chart():
     s = 'CCGGAAGAGCTTACTTAGGAAGAA'
@@ -287,7 +304,9 @@ def read_column(file_name, column_number):
     Reads column column_number from file file_name
     and returns the values as floats in a list.
     """
-    return None
+    import numpy
+    data = numpy.loadtxt(file_name)
+    return list(data[:, column_number-1])
 
 
 def test_read_column():
@@ -326,7 +345,14 @@ def character_statistics(file_name):
     Use the isalpha() method to figure out
     whether the character is in the alphabet.
     """
-    return None
+    filestring = open(file_name).read().lower()
+    stat = {}
+    for c in filestring:
+        if c.isalpha():
+            stat[c] = stat.get(c, 0) + 1
+    kmax = max(stat, key=stat.get)
+    kmin = min(stat, key=stat.get)
+    return (kmax, kmin)
 
 
 def test_character_statistics():
