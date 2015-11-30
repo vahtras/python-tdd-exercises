@@ -30,7 +30,7 @@ def is_english_vowel(c):
     Returns True if c is an english vowel
     and False otherwise.
     """
-    return None
+    return c.lower() in "eiyaou"
 
 
 def test_is_english_vowel():
@@ -57,7 +57,7 @@ def count_num_vowels(s):
     """
     Returns the number of vowels in a string s.
     """
-    return None
+    return sum(is_english_vowel(c) for c in s)
 
 
 def test_count_num_vowels():
@@ -79,7 +79,7 @@ def histogram(l):
     """
     Converts a list of integers into a simple string histogram.
     """
-    return None
+    return '\n'.join(['#'*i for i in l])
 
 
 def test_histogram():
@@ -93,7 +93,7 @@ def get_word_lengths(s):
     Returns a list of integers representing
     the word lengths in string s.
     """
-    return None
+    return [len(w) for w in s.split()]
 
 
 def test_get_word_lengths():
