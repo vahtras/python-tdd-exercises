@@ -129,7 +129,10 @@ def validate_dna(s):
     Return True if the DNA string only contains characters
     a, c, t, or g (lower or uppercase). False otherwise.
     """
-    return None
+    for c in s:
+        if c.lower() not in 'ctag':
+            return False
+    return True
 
 
 def test_validate_dna():
@@ -145,8 +148,12 @@ def base_pair(c):
     of the base pair. If the base is not recognized,
     return 'unknown'.
     """
-    return None
-
+    pairs = {'a': 't', 't': 'a', 'c': 'g', 'g': 'c'}
+    if c.lower() in pairs.keys():
+        return pairs[c.lower()]
+    else:
+        return 'unknown'
+    return
 
 def test_base_pair():
     assert base_pair('a') == 't'
